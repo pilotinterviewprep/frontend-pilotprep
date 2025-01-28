@@ -7,6 +7,7 @@ import { useRouter } from 'src/routes/hooks';
 
 import { useAppDispatch } from 'src/redux/hooks';
 import { logout } from 'src/redux/features/auth/auth-slice';
+import { firebaseSignout } from 'src/firebase/firebase-auth-provider';
 
 // ----------------------------------------------------------------------
 
@@ -21,6 +22,7 @@ export function SignOutButton({ onClose, ...other }: Props) {
 
   const handleLogout = () => {
     dispatch(logout());
+    firebaseSignout();
     localStorage.removeItem('persist:auth');
     onClose?.();
     router.refresh();

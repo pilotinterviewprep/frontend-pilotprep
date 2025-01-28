@@ -11,6 +11,8 @@ import { RouterLink } from 'src/routes/components';
 import { FormHead } from '../components/form-head';
 import SignUpFirstForm from './components/sign-up-first-form';
 import SignUpSecondForm from './components/sign-up-second-form';
+import { Box, Divider } from '@mui/material';
+import { SigninWithGoogleButton } from './components/sign-in-with-google';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +21,7 @@ export function SignUpView() {
   const [errorMsg, setErrorMsg] = useState('');
 
   return (
-    <>
+    <Box>
       <FormHead
         title="Create your account"
         description={
@@ -42,12 +44,13 @@ export function SignUpView() {
           {errorMsg}
         </Alert>
       )}
-
+      <SigninWithGoogleButton />
+      <Divider sx={{ fontSize: 10, py: 2 }}>OR</Divider>
       {nextStep ? (
         <SignUpSecondForm setNextStep={setNextStep} setErrorMsg={setErrorMsg} />
       ) : (
         <SignUpFirstForm setNextStep={setNextStep} setErrorMsg={setErrorMsg} />
       )}
-    </>
+    </Box>
   );
 }

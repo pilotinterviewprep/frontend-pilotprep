@@ -62,7 +62,7 @@ const SignUpSecondForm = ({ setNextStep, setErrorMsg }: Props) => {
       if (res?.error) {
         setErrorMsg((res?.error as IErrorResponse)?.data?.message);
       } else {
-        router.push('/auth/sign-in');
+        router.push('/sign-in');
       }
     } catch (err) {
       setErrorMsg(typeof err === 'string' ? err : err.message);

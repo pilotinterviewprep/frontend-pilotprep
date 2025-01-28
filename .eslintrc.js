@@ -105,5 +105,13 @@ module.exports = {
         'internal-pattern': ['src/**'],
       },
     ],
+    // Allow firebase/app
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        packageDir: './',
+        allowModules: ['firebase/app'],
+      },
+    ],
   },
 };

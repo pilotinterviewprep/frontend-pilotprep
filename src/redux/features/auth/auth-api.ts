@@ -46,6 +46,33 @@ const authApi = baseApi.injectEndpoints({
         }
       },
     }),
+    socialLogin: builder.mutation({
+      query: (userInfo) => ({
+        url: api_endpoint.auth.social_login,
+        method: 'POST',
+        body: userInfo,
+      }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const { data: responseData } = await queryFulfilled;
+          const {
+            data: { access_token, ...remainingData },
+          } = responseData;
+          dispatch(
+            setUser({
+              token: access_token,
+              user: {
+                ...remainingData,
+                profile_pic: `${CONFIG.bucket.url}/${remainingData.profile_pic}`,
+              },
+            })
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    }),
+
     forgotPassword: builder.mutation({
       query: (data) => ({
         url: api_endpoint.auth.forgot_password,
@@ -108,6 +135,7 @@ const authApi = baseApi.injectEndpoints({
 
 export const {
   useLoginMutation,
+  useSocialLoginMutation,
   useForgotPasswordMutation,
   useChangePasswordMutation,
   useUpdateProfileMutation,

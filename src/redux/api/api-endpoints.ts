@@ -9,8 +9,10 @@ const api_endpoint = {
     send_otp: `${features.auth}/send-otp`,
     register: `${features.auth}/register`,
     login: `${features.auth}/login`,
+    social_login: `${features.auth}/social-login`,
     forgot_password: `${features.auth}/forgot-password`,
     change_password: `${features.auth}/reset-password`,
+
   },
   user: {
     update_profile: `${features.user}/update-profile`,

@@ -25,6 +25,9 @@ import { Iconify } from 'src/components/iconify';
 import { Form, Field } from 'src/components/hook-form';
 
 import { FormHead } from '../components/form-head';
+import { Button, Divider } from '@mui/material';
+import { signInWithGoogle } from 'src/firebase/firebase-auth-provider';
+import { SigninWithGoogleButton } from './components/sign-in-with-google';
 
 // ----------------------------------------------------------------------
 
@@ -76,6 +79,8 @@ export function SignInView() {
 
   const renderForm = (
     <Box gap={3} display="flex" flexDirection="column">
+      <SigninWithGoogleButton />
+      <Divider sx={{fontSize: 10}}>OR</Divider>
       <Field.Text name="email_or_contact_number" label="Email" InputLabelProps={{ shrink: true }} />
 
       <Box gap={1.5} display="flex" flexDirection="column">
