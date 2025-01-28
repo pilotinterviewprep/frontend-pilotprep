@@ -8,6 +8,8 @@ import { IErrorResponse } from 'src/redux/interfaces/common';
 export const SigninWithGoogleButton = () => {
   const [errorMsg, setErrorMsg] = React.useState('');
   const [socialLogin, { isLoading, error, data }] = useSocialLoginMutation();
+  console.log(error, 'error');
+  console.log(errorMsg, 'errorMsg');
   const handleGoogleSignIn = async () => {
     try {
       const result: any = await signInWithGoogle();
