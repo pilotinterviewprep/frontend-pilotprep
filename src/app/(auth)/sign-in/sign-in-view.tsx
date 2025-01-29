@@ -27,7 +27,7 @@ import { Form, Field } from 'src/components/hook-form';
 import { FormHead } from '../components/form-head';
 import { Button, Divider } from '@mui/material';
 import { signInWithGoogle } from 'src/firebase/firebase-auth-provider';
-import { SigninWithGoogleButton } from './components/sign-in-with-google';
+import { SigninWithGoogleButton } from '../components/sign-in-with-google';
 
 // ----------------------------------------------------------------------
 

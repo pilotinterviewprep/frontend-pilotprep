@@ -9,10 +9,10 @@ import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
 import { FormHead } from '../components/form-head';
-import SignUpFirstForm from './components/sign-up-first-form';
-import SignUpSecondForm from './components/sign-up-second-form';
+import SignUpFirstForm from '../components/sign-up-first-form';
+import SignUpSecondForm from '../components/sign-up-second-form';
 import { Box, Divider } from '@mui/material';
-import { SigninWithGoogleButton } from './components/sign-in-with-google';
+import { SigninWithGoogleButton } from '../components/sign-in-with-google';
 
 // ----------------------------------------------------------------------
 
