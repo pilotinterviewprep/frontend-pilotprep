@@ -25,7 +25,7 @@ import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 import { AnimateAvatar } from 'src/components/animate';
 
-import { useAuthContext, useMockedUser } from 'src/auth/hooks';
+import { useAuthContext, useMockedUser } from 'src/app/(auth)/hooks';
 
 import { UpgradeBlock } from './nav-upgrade';
 import { AccountButton } from './account-button';
