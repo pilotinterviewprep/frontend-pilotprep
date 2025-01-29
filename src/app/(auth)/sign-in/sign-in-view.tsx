@@ -2,31 +2,20 @@
 import React from 'react';
 
 import { LoadingButton } from '@mui/lab';
-import {
-  Alert,
-  Divider,
-  FormLabel,
-  Grid,
-  Link,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Alert, Divider, Grid, Link, Paper, Stack, Typography } from '@mui/material';
 
 import { useLoginMutation } from 'src/redux/features/auth/auth-api';
 
 import { useFormik } from 'formik';
+import { useRouter } from 'next/navigation';
+import { CustomPasswordInput } from 'src/components/form-components/custom-password-field';
+import { CustomTextField } from 'src/components/form-components/custom-text-field';
+import { CustomFormLabel } from 'src/components/form-components/form-label';
 import { formConstants } from 'src/constants/form-constants';
 import { IErrorResponse } from 'src/redux/interfaces/common';
-import * as Yup from 'yup';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
-import { useRouter } from 'next/navigation';
-import { ErrorText } from 'src/components/form-components/error-text';
-import { CustomTextField } from 'src/components/form-components/custom-text-field';
-import { CustomPasswordInput } from 'src/components/form-components/custom-password-field';
-import { CustomFormLabel } from 'src/components/form-components/form-label';
+import * as Yup from 'yup';
 import { SocialLogin } from '../components/social-login';
 
 const validationSchema = Yup.object().shape({
@@ -114,7 +103,7 @@ export const SignInView = () => {
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
             <Link
               component={RouterLink}
               href={paths.auth.forgot_password}
