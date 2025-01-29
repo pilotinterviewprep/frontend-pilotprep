@@ -1,108 +1,115 @@
-import type { IErrorResponse } from 'src/redux/interfaces/common';
-
 import React from 'react';
-import { z as zod } from 'zod';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 import { LoadingButton } from '@mui/lab';
-import { Box, IconButton, InputAdornment } from '@mui/material';
+import { FormLabel, Grid, TextField } from '@mui/material';
 
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useRegisterMutation, useSendOTPMutation } from 'src/redux/features/auth/auth-api';
 
-import { useRegisterMutation } from 'src/redux/features/auth/auth-api';
+import { useFormik } from 'formik';
+import { formConstants } from 'src/constants/form-constants';
+import { IErrorResponse } from 'src/redux/interfaces/common';
+import * as Yup from 'yup';
 
-import { Iconify } from 'src/components/iconify';
-import { Form, Field } from 'src/components/hook-form';
-
-export type SignUpSchemaType = zod.infer<typeof SignUpSchema>;
-
-export const SignUpSchema = zod.object({
-  otp: zod.number({ required_error: 'OTP is required' }).min(6, { message: 'OTP is invalid' }),
-  password: zod
-    .string({ required_error: 'Password is required' })
-    .min(6, { message: 'Password must be at least 6 characters long' })
-    .regex(/^(?=.*[a-zA-Z])(?=.*\d)/, {
-      message: 'Password must contain at least one letter and one number',
-    }),
+const validationSchema = Yup.object().shape({
+  otp: Yup.number().required(formConstants.required),
+  password: Yup.string().required(formConstants.required),
+  confirm_password: Yup.string().required(formConstants.required),
 });
 
-type Props = {
-  setErrorMsg: (value: string) => void;
+const defaultOtp = {
+  otp: '',
+  password: '',
+  confirm_password: '',
 };
 
-const SignUpSecondForm = ({ setErrorMsg }: Props) => {
-  const [register, { isLoading: isRegistering }] = useRegisterMutation();
-
-  const router = useRouter();
-
-  const password = useBoolean();
-
-  const defaultValues = {
-    otp: 0,
-    password: '',
-  };
-
-  const methods = useForm<SignUpSchemaType>({
-    resolver: zodResolver(SignUpSchema),
-    defaultValues,
-  });
+interface IProps {
+  setErrorMsg: (value: string) => void;
+}
+export const SignupSecondForm = ({ setErrorMsg }: IProps) => {
+  const [register, { isLoading: isSendingOTP }] = useRegisterMutation();
+  const [loading, setLoading] = React.useState(false);
 
   const {
+    values,
+    errors,
+    handleChange,
     handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
-
-  const onSubmit = handleSubmit(async (data) => {
-    try {
-      setErrorMsg('');
-      const res = await register(data);
+    handleBlur,
+    setValues,
+    setFieldValue,
+    isValid,
+    resetForm,
+    touched,
+  } = useFormik({
+    initialValues: defaultOtp,
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      setLoading(true);
+      const res = await register({
+        otp: values.otp,
+        password: values.password,
+      });
       if (res?.error) {
         setErrorMsg((res?.error as IErrorResponse)?.data?.message);
       } else {
-        router.push('/sign-in');
       }
-    } catch (err) {
-      setErrorMsg(typeof err === 'string' ? err : err.message);
-    }
+      setLoading(false);
+    },
   });
 
   return (
-    <Form methods={methods} onSubmit={onSubmit}>
-      <Box gap={3} display="flex" flexDirection="column">
-        <Field.Text name="otp" type="number" label="OTP" InputLabelProps={{ shrink: true }} />
-        <Field.Text
-          name="password"
-          label="Password"
-          placeholder="6+ characters"
-          type={password.value ? 'text' : 'password'}
-          InputLabelProps={{ shrink: true }}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={password.onToggle} edge="end">
-                  <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+    <form onSubmit={handleSubmit}>
+      <Grid container spacing={2} py={2}>
+        <Grid item xs={12} md={6}>
+          <FormLabel>OTP </FormLabel>
+          <TextField
+            fullWidth
+            size="small"
+            name="otp"
+            type="number" 
+            placeholder="OTP"
+            onChange={handleChange}
+            error={touched.otp && Boolean(errors.otp)}
+            helperText={errors.otp}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <FormLabel>Password </FormLabel>
+          <TextField
+            fullWidth
+            size="small"
+            name="password"
+            placeholder="Password"
+            onChange={handleChange}
+            error={touched.password && Boolean(errors.password)}
+            helperText={errors.password}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <FormLabel>Confirm Password </FormLabel>
+          <TextField
+            fullWidth
+            size="small"
+            name="confirm_password"
+            placeholder="Confirm Password"
+            onChange={handleChange}
+            error={touched.confirm_password && Boolean(errors.confirm_password)}
+            helperText={errors.confirm_password}
+          />
+        </Grid>
+      </Grid>
 
-        <LoadingButton
-          fullWidth
-          color="inherit"
-          size="large"
-          type="submit"
-          variant="contained"
-          loading={isSubmitting || isRegistering}
-          loadingIndicator="Creating..."
-        >
-          Create Account
-        </LoadingButton>
-      </Box>
-    </Form>
+      <LoadingButton
+        fullWidth
+        color="inherit"
+        size="large"
+        type="submit"
+        variant="contained"
+        loading={loading}
+        loadingIndicator="Submitting..."
+      >
+        Submit
+      </LoadingButton>
+    </form>
   );
 };
-
-export default SignUpSecondForm;

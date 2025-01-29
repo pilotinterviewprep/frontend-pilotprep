@@ -10,7 +10,7 @@ import { paths } from 'src/routes/paths';
 
 import { Paper, Stack, Typography } from '@mui/material';
 import { SignUpFirstForm } from '../components/sign-up-first-form';
-import SignUpSecondForm from '../components/sign-up-second-form';
+import { SignupSecondForm } from '../components/sign-up-second-form';
 
 // ----------------------------------------------------------------------
 
@@ -51,8 +51,8 @@ export function SignUpView() {
           {errorMsg}
         </Alert>
       )}
-      {step ? (
-        <SignUpSecondForm setErrorMsg={setErrorMsg} />
+      {step === 1 ? (
+        <SignupSecondForm setErrorMsg={setErrorMsg} />
       ) : (
         <SignUpFirstForm setNextStep={setStep} setErrorMsg={setErrorMsg} />
       )}
