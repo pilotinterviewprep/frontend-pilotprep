@@ -33,7 +33,7 @@ export function ForgotPasswordView() {
       </Stack>
 
       {!!errorMsg && (
-        <Alert severity="error" sx={{ mb: 3 }}>
+        <Alert severity="error" sx={{ my: 3 }}>
           {errorMsg}
         </Alert>
       )}
