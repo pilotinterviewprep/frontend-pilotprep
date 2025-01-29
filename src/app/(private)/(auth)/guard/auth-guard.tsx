@@ -7,7 +7,7 @@ import { paths } from 'src/routes/paths';
 
 import { SplashScreen } from 'src/components/loading-screen';
 
-import { useAuthContext } from '../../../hooks';
+import { useAuthContext } from '../../../../hooks';
 
 // ----------------------------------------------------------------------
 

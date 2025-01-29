@@ -12,7 +12,7 @@ import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { ProgressBar } from 'src/components/progress-bar';
 import { defaultSettings, SettingsDrawer, SettingsProvider } from 'src/components/settings';
 import { AuthProvider } from 'src/contexts/jwt';
-import { AuthGuard } from 'src/app/(auth)/guard';
+import { AuthGuard } from 'src/app/(private)/(auth)/guard';
 
 // import { AuthProvider } from 'src/auth/context/jwt';
 

@@ -1,4 +1,4 @@
-import { AuthGuard } from 'src/app/(auth)/guard';
+import { AuthGuard } from 'src/app/(private)/(auth)/guard';
 import { CONFIG } from 'src/config-global';
 import { DashboardLayout } from 'src/layouts/dashboard';
 
