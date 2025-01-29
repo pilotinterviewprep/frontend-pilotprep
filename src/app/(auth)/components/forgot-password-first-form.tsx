@@ -3,7 +3,7 @@ import React from 'react';
 import { LoadingButton } from '@mui/lab';
 import { Grid } from '@mui/material';
 
-import { useSendOTPMutation } from 'src/redux/features/auth/auth-api';
+import { useForgotPasswordMutation, useSendOTPMutation } from 'src/redux/features/auth/auth-api';
 
 import { useFormik } from 'formik';
 import { CustomTextField } from 'src/components/form-components/custom-text-field';
@@ -14,19 +14,19 @@ import * as Yup from 'yup';
 import { defaultUser } from '../utils/auth.types';
 
 const validationSchema = Yup.object().shape({
-  first_name: Yup.string().required(formConstants.required),
-  username: Yup.string()
-    .min(3, 'Username must be at least 3 characters long')
-    .required(formConstants.required),
   email: Yup.string().email(formConstants.invalidEmail).required(formConstants.required),
 });
 
+const defaultFormValue = {
+  email: '',
+};
+
 interface IProps {
-  setNextStep: (value: number) => void;
+  setEmail: (value: string) => void;
   setErrorMsg: (value: string) => void;
 }
-export const ForgotPasswordFirstForm = ({ setNextStep, setErrorMsg }: IProps) => {
-  const [sendOTP, { isLoading: isSendingOTP }] = useSendOTPMutation();
+export const ForgotPasswordFirstForm = ({ setEmail, setErrorMsg }: IProps) => {
+  const [sendForgotPasswordOTP, { isLoading: isSendingOTP }] = useForgotPasswordMutation();
   const [loading, setLoading] = React.useState(false);
 
   const {
@@ -41,15 +41,15 @@ export const ForgotPasswordFirstForm = ({ setNextStep, setErrorMsg }: IProps) =>
     resetForm,
     touched,
   } = useFormik({
-    initialValues: defaultUser,
+    initialValues: defaultFormValue,
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       setLoading(true);
-      const res = await sendOTP(values);
+      const res = await sendForgotPasswordOTP(values);
       if (res?.error) {
         setErrorMsg((res?.error as IErrorResponse)?.data?.message);
       } else {
-        setNextStep(1);
+        setEmail(values.email);
       }
       setLoading(false);
     },

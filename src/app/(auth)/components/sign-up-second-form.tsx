@@ -73,7 +73,7 @@ export const SignupSecondForm = ({ setErrorMsg }: IProps) => {
             id="otp"
             name="otp"
             type="number"
-            placeholder='Enter OTP'
+            placeholder="Enter OTP"
             value={values.otp}
             onChange={handleChange}
             error={touched.otp && Boolean(errors.otp)}
@@ -81,11 +81,11 @@ export const SignupSecondForm = ({ setErrorMsg }: IProps) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <CustomFormLabel value={values.password} />
+          <CustomFormLabel value={'Password'} />
           <CustomPasswordInput
             id="password"
             name="password"
-            placeholder='Enter Password'
+            placeholder="Enter Password"
             value={values.password}
             onChange={handleChange}
             error={touched.password && Boolean(errors.password)}
@@ -93,11 +93,11 @@ export const SignupSecondForm = ({ setErrorMsg }: IProps) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <CustomFormLabel value={values.confirm_password} />
+          <CustomFormLabel value={'Confirm Password'} />
           <CustomPasswordInput
             id="confirm_password"
             name="confirm_password"
-            placeholder='Confirm Password'
+            placeholder="Confirm Password"
             value={values.confirm_password}
             onChange={handleChange}
             error={touched.confirm_password && Boolean(errors.confirm_password)}

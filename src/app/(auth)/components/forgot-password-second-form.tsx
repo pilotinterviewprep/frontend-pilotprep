@@ -3,7 +3,7 @@ import React from 'react';
 import { LoadingButton } from '@mui/lab';
 import { FormLabel, Grid } from '@mui/material';
 
-import { useRegisterMutation } from 'src/redux/features/auth/auth-api';
+import { useForgotPasswordMutation, useRegisterMutation } from 'src/redux/features/auth/auth-api';
 
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
@@ -29,9 +29,10 @@ const defaultOtp = {
 
 interface IProps {
   setErrorMsg: (value: string) => void;
+  email: string;
 }
-export const ForgotPasswordSecondForm = ({ setErrorMsg }: IProps) => {
-  const [register, { isLoading: isSendingOTP }] = useRegisterMutation();
+export const ForgotPasswordSecondForm = ({ setErrorMsg, email }: IProps) => {
+  const [forgotPasswordSecondStep, { isLoading: isSendingOTP }] = useForgotPasswordMutation();
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
 
@@ -51,9 +52,10 @@ export const ForgotPasswordSecondForm = ({ setErrorMsg }: IProps) => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       setLoading(true);
-      const res = await register({
+      const res = await forgotPasswordSecondStep({
+        email: email,
         otp: values.otp,
-        password: values.password,
+        new_password: values.password,
       });
       if (res?.error) {
         setErrorMsg((res?.error as IErrorResponse)?.data?.message);
@@ -73,7 +75,7 @@ export const ForgotPasswordSecondForm = ({ setErrorMsg }: IProps) => {
             id="otp"
             name="otp"
             type="number"
-            placeholder='Enter OTP'
+            placeholder="Enter OTP"
             value={values.otp}
             onChange={handleChange}
             error={touched.otp && Boolean(errors.otp)}
@@ -81,11 +83,11 @@ export const ForgotPasswordSecondForm = ({ setErrorMsg }: IProps) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <CustomFormLabel value={values.password} />
+          <CustomFormLabel value={'Password'} />
           <CustomPasswordInput
             id="password"
             name="password"
-            placeholder='Enter Password'
+            placeholder="Enter Password"
             value={values.password}
             onChange={handleChange}
             error={touched.password && Boolean(errors.password)}
@@ -93,11 +95,11 @@ export const ForgotPasswordSecondForm = ({ setErrorMsg }: IProps) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <CustomFormLabel value={values.confirm_password} />
+          <CustomFormLabel value={'Confirm Password'} />
           <CustomPasswordInput
             id="confirm_password"
             name="confirm_password"
-            placeholder='Confirm Password'
+            placeholder="Confirm Password"
             value={values.confirm_password}
             onChange={handleChange}
             error={touched.confirm_password && Boolean(errors.confirm_password)}
