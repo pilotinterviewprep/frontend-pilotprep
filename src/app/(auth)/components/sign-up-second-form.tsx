@@ -13,6 +13,7 @@ import { formConstants } from 'src/constants/form-constants';
 import { IErrorResponse } from 'src/redux/interfaces/common';
 import { paths } from 'src/routes/paths';
 import * as Yup from 'yup';
+import { CustomFormLabel } from 'src/components/form-components/form-label';
 
 const validationSchema = Yup.object().shape({
   otp: Yup.number().required(formConstants.required),
@@ -66,20 +67,20 @@ export const SignupSecondForm = ({ setErrorMsg }: IProps) => {
   return (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2} py={2}>
-        <Grid item xs={12} >
-          <FormLabel>OTP </FormLabel>
+        <Grid item xs={12}>
+          <CustomFormLabel value={values.otp} />
           <CustomTextField
             id="otp"
             name="otp"
-            type='number'
+            type="number"
             value={values.otp}
             onChange={handleChange}
             error={touched.otp && Boolean(errors.otp)}
             helperText={errors.otp}
           />
         </Grid>
-        <Grid item xs={12} >
-          <FormLabel>Password </FormLabel>
+        <Grid item xs={12}>
+          <CustomFormLabel value={values.password} />
           <CustomPasswordInput
             id="password"
             name="password"
@@ -89,8 +90,8 @@ export const SignupSecondForm = ({ setErrorMsg }: IProps) => {
             helperText={errors.password}
           />
         </Grid>
-        <Grid item xs={12} >
-          <FormLabel>Confirm Password </FormLabel>
+        <Grid item xs={12}>
+          <CustomFormLabel value={values.confirm_password} />
           <CustomPasswordInput
             id="confirm_password"
             name="confirm_password"
@@ -104,8 +105,8 @@ export const SignupSecondForm = ({ setErrorMsg }: IProps) => {
 
       <LoadingButton
         fullWidth
-        color="inherit"
-        size="large"
+        color="primary"
+        size="medium"
         type="submit"
         variant="contained"
         loading={loading}

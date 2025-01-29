@@ -1,16 +1,39 @@
 import { app } from './firebase-config';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import { FacebookAuthProvider, getAuth, GoogleAuthProvider, OAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 
 const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-
+const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
+const appleProvider = new OAuthProvider('apple.com');
 export const signInWithGoogle = async () => {
   try {
-    const result = await signInWithPopup(auth, provider);
+    const result = await signInWithPopup(auth, googleProvider);
     const user = result.user;
     return user;
   } catch (error) {
     console.error('Error during sign in with Google:', error);
+    throw error;
+  }
+};
+
+export const signInWithFacebook = async () => {
+  try {
+    const result = await signInWithPopup(auth, facebookProvider);
+    const user = result.user;
+    return user;
+  } catch (error) {
+    console.error('Error during sign in with Facebook:', error);
+    throw error;
+  }
+}
+
+export const signInWithApple = async () => {
+  try {
+    const result = await signInWithPopup(auth, appleProvider);
+    const user = result.user;
+    return user;
+  } catch (error) {
+    console.error('Error during sign in with Apple:', error);
     throw error;
   }
 };

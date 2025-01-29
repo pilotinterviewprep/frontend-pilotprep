@@ -17,6 +17,7 @@ import { HeaderSection } from '../core/header-section';
 import { LayoutSection } from '../core/layout-section';
 import { Content, Main } from './main';
 import { AuthFooter } from 'src/app/(auth)/components/auth-footer';
+import { pxToRem } from 'src/theme/styles';
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +35,7 @@ export type AuthSplitLayoutProps = {
 };
 
 export function AuthSplitLayout({ sx, section, children, header }: AuthSplitLayoutProps) {
-  const layoutQuery: Breakpoint = 'md';
+  const layoutQuery: Breakpoint = 'xl';
 
   return (
     <LayoutSection
@@ -84,12 +85,12 @@ export function AuthSplitLayout({ sx, section, children, header }: AuthSplitLayo
       /** **************************************
        * Style
        *************************************** */
-      cssVars={{ '--layout-auth-content-width': '420px' }}
+      cssVars={{ '--layout-auth-content-width': pxToRem(500) }}
       sx={sx}
     >
-      <Main layoutQuery={layoutQuery}>
+      {/* <Main layoutQuery={layoutQuery}> */}
         <Content layoutQuery={layoutQuery}>{children}</Content>
-      </Main>
+      {/* </Main> */}
     </LayoutSection>
   );
 }

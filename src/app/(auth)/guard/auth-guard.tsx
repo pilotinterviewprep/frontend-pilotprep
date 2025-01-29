@@ -59,8 +59,5 @@ export function AuthGuard({ children }: Props) {
   if (isChecking) {
     return <SplashScreen />;
   }
-
-  console.log(children, 'children...');
-
   return <>{children}</>;
 }

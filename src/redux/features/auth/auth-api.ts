@@ -71,7 +71,6 @@ const authApi = baseApi.injectEndpoints({
           );
 
           if (window !== undefined) {
-            console.log(window, 'inside window');
             const router = useRouter();
             router.push('/dashboard');
           }

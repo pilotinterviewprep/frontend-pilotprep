@@ -12,6 +12,7 @@ import { formConstants } from 'src/constants/form-constants';
 import { IErrorResponse } from 'src/redux/interfaces/common';
 import * as Yup from 'yup';
 import { defaultUser } from '../utils/auth.types';
+import { CustomFormLabel } from 'src/components/form-components/form-label';
 
 const validationSchema = Yup.object().shape({
   first_name: Yup.string().required(formConstants.required),
@@ -59,7 +60,7 @@ export const SignUpFirstForm = ({ setNextStep, setErrorMsg }: IProps) => {
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2} py={2}>
         <Grid item xs={12} md={6}>
-          <FormLabel>First Name</FormLabel>
+          <CustomFormLabel value="First Name" />
           <CustomTextField
             name="first_name"
             placeholder="First Name"
@@ -69,11 +70,11 @@ export const SignUpFirstForm = ({ setNextStep, setErrorMsg }: IProps) => {
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <FormLabel>Last Name</FormLabel>
+          <CustomFormLabel value="Last Name" />
           <CustomTextField name="last_name" placeholder="Last Name" onChange={handleChange} />
         </Grid>
         <Grid item xs={12}>
-          <FormLabel>Email</FormLabel>{' '}
+          <CustomFormLabel value="Email" />
           <CustomTextField
             name="email"
             placeholder="Email"
@@ -84,7 +85,8 @@ export const SignUpFirstForm = ({ setNextStep, setErrorMsg }: IProps) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <FormLabel>User name</FormLabel>{' '}
+          <CustomFormLabel value="User name" />
+
           <CustomTextField
             name="username"
             placeholder="Username"
@@ -94,15 +96,15 @@ export const SignUpFirstForm = ({ setNextStep, setErrorMsg }: IProps) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <FormLabel>Country</FormLabel>
+          <CustomFormLabel value="Country" />
           <CustomTextField name="country" placeholder="Country" onChange={handleChange} />
         </Grid>
       </Grid>
 
       <LoadingButton
         fullWidth
-        color="inherit"
-        size="large"
+        color="primary"
+        size="medium"
         type="submit"
         variant="contained"
         loading={loading || isSendingOTP}

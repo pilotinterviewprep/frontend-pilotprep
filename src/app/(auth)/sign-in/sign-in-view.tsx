@@ -2,7 +2,17 @@
 import React from 'react';
 
 import { LoadingButton } from '@mui/lab';
-import { FormLabel, Grid, Link, Paper, Stack, TextField, Typography } from '@mui/material';
+import {
+  Alert,
+  Divider,
+  FormLabel,
+  Grid,
+  Link,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 
 import { useLoginMutation } from 'src/redux/features/auth/auth-api';
 
@@ -16,6 +26,8 @@ import { useRouter } from 'next/navigation';
 import { ErrorText } from 'src/components/form-components/error-text';
 import { CustomTextField } from 'src/components/form-components/custom-text-field';
 import { CustomPasswordInput } from 'src/components/form-components/custom-password-field';
+import { CustomFormLabel } from 'src/components/form-components/form-label';
+import { SocialLogin } from '../components/social-login';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email(formConstants.invalidEmail).required(formConstants.required),
@@ -72,10 +84,15 @@ export const SignInView = () => {
           </Link>
         </Stack>
       </Stack>
+      {!!errorMsg && (
+        <Alert severity="error" sx={{ mt: 3 }}>
+          {errorMsg}
+        </Alert>
+      )}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2} py={2}>
           <Grid item xs={12}>
-            <FormLabel>Email</FormLabel>
+            <CustomFormLabel value="Email" />
             <CustomTextField
               name="email"
               placeholder="Email"
@@ -86,7 +103,7 @@ export const SignInView = () => {
             />
           </Grid>
           <Grid item xs={12}>
-            <FormLabel>Password</FormLabel>
+            <CustomFormLabel value="Password" />
             <CustomPasswordInput
               id="password"
               name="password"
@@ -96,20 +113,36 @@ export const SignInView = () => {
               helperText={errors.password}
             />
           </Grid>
+
+          <Grid item xs={12}>
+            <Link
+              component={RouterLink}
+              href={paths.auth.forgot_password}
+              sx={{
+                fontSize: 14,
+                color: 'text.secondary',
+                ml: 'auto',
+              }}
+            >
+              Forgor Password?
+            </Link>
+          </Grid>
         </Grid>
 
         <LoadingButton
           fullWidth
-          color="inherit"
-          size="large"
+          color="primary"
+          size="medium"
           type="submit"
           variant="contained"
           loading={loading}
           loadingIndicator="Submitting..."
         >
-          Submit
+          Login
         </LoadingButton>
       </form>
+      <Divider sx={{ color: 'text.secondary', py: 2 }}>or</Divider>
+      <SocialLogin displayErrorMsg={setErrorMsg} />
     </Paper>
   );
 };
