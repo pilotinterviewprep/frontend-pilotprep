@@ -6,6 +6,8 @@ import { FormLabel, Grid, TextField } from '@mui/material';
 import { useSendOTPMutation } from 'src/redux/features/auth/auth-api';
 
 import { useFormik } from 'formik';
+import { CustomTextField } from 'src/components/form-components/custom-text-field';
+import { ErrorText } from 'src/components/form-components/error-text';
 import { formConstants } from 'src/constants/form-constants';
 import { IErrorResponse } from 'src/redux/interfaces/common';
 import * as Yup from 'yup';
@@ -58,11 +60,9 @@ export const SignUpFirstForm = ({ setNextStep, setErrorMsg }: IProps) => {
       <Grid container spacing={2} py={2}>
         <Grid item xs={12} md={6}>
           <FormLabel>First Name</FormLabel>
-          <TextField
-            fullWidth
-            size="small"
+          <CustomTextField
             name="first_name"
-            placeholder="Name"
+            placeholder="First Name"
             onChange={handleChange}
             error={touched.first_name && Boolean(errors.first_name)}
             helperText={errors.first_name}
@@ -70,21 +70,14 @@ export const SignUpFirstForm = ({ setNextStep, setErrorMsg }: IProps) => {
         </Grid>
         <Grid item xs={12} md={6}>
           <FormLabel>Last Name</FormLabel>
-          <TextField
-            fullWidth
-            size="small"
-            name="last_name"
-            placeholder="Name"
-            onChange={handleChange}
-          />
+          <CustomTextField name="last_name" placeholder="Last Name" onChange={handleChange} />
         </Grid>
         <Grid item xs={12}>
           <FormLabel>Email</FormLabel>{' '}
-          <TextField
-            fullWidth
-            size="small"
+          <CustomTextField
             name="email"
             placeholder="Email"
+            type="email"
             onChange={handleChange}
             error={touched.email && Boolean(errors.email)}
             helperText={errors.email}
@@ -92,9 +85,7 @@ export const SignUpFirstForm = ({ setNextStep, setErrorMsg }: IProps) => {
         </Grid>
         <Grid item xs={12}>
           <FormLabel>User name</FormLabel>{' '}
-          <TextField
-            fullWidth
-            size="small"
+          <CustomTextField
             name="username"
             placeholder="Username"
             onChange={handleChange}
@@ -104,14 +95,7 @@ export const SignUpFirstForm = ({ setNextStep, setErrorMsg }: IProps) => {
         </Grid>
         <Grid item xs={12}>
           <FormLabel>Country</FormLabel>
-          <TextField
-            fullWidth
-            size="small"
-            name="country"
-            placeholder="Country"
-            variant="outlined"
-            onChange={handleChange}
-          />
+          <CustomTextField name="country" placeholder="Country" onChange={handleChange} />
         </Grid>
       </Grid>
 

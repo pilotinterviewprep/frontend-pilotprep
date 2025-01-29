@@ -1,163 +1,115 @@
 'use client';
+import React from 'react';
 
-import type { IErrorResponse } from 'src/redux/interfaces/common';
-
-import { z as zod } from 'zod';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Alert from '@mui/material/Alert';
-import IconButton from '@mui/material/IconButton';
-import LoadingButton from '@mui/lab/LoadingButton';
-import InputAdornment from '@mui/material/InputAdornment';
-
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
-
-import { useBoolean } from 'src/hooks/use-boolean';
+import { LoadingButton } from '@mui/lab';
+import { FormLabel, Grid, Link, Paper, Stack, TextField, Typography } from '@mui/material';
 
 import { useLoginMutation } from 'src/redux/features/auth/auth-api';
 
-import { Iconify } from 'src/components/iconify';
-import { Form, Field } from 'src/components/hook-form';
-
-import { FormHead } from '../components/form-head';
-import { Button, Divider } from '@mui/material';
-import { signInWithGoogle } from 'src/firebase/firebase-auth-provider';
-import { SigninWithGoogleButton } from '../components/sign-in-with-google';
+import { useFormik } from 'formik';
+import { formConstants } from 'src/constants/form-constants';
+import { IErrorResponse } from 'src/redux/interfaces/common';
+import * as Yup from 'yup';
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 import { useRouter } from 'next/navigation';
+import { ErrorText } from 'src/components/form-components/error-text';
+import { CustomTextField } from 'src/components/form-components/custom-text-field';
+import { CustomPasswordInput } from 'src/components/form-components/custom-password-field';
 
-// ----------------------------------------------------------------------
-
-export type SignInSchemaType = zod.infer<typeof SignInSchema>;
-
-export const SignInSchema = zod.object({
-  email_or_contact_number: zod.string().min(1, { message: 'Email is required!' }),
-  password: zod
-    .string()
-    .min(1, { message: 'Password is required!' })
-    .min(6, { message: 'Password must be at least 6 characters!' }),
+const validationSchema = Yup.object().shape({
+  email: Yup.string().email(formConstants.invalidEmail).required(formConstants.required),
+  password: Yup.string().required(formConstants.required),
 });
 
-// ----------------------------------------------------------------------
+const defaultFormValue = {
+  email: '',
+  password: '',
+};
 
-export function SignInView() {
-  const router = useRouter();
+export const SignInView = () => {
   const [login, { isLoading: isLoginLoading, isSuccess }] = useLoginMutation();
-
-  const [errorMsg, setErrorMsg] = useState('');
-
-  const password = useBoolean();
-
-  const defaultValues = {
-    email: '',
-    password: '',
-  };
-
-  const methods = useForm<SignInSchemaType>({
-    resolver: zodResolver(SignInSchema),
-    defaultValues,
-  });
+  const [loading, setLoading] = React.useState(false);
+  const [errorMsg, setErrorMsg] = React.useState('');
+  const router = useRouter();
 
   const {
+    values,
+    errors,
+    handleChange,
     handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
-
-  const onSubmit = handleSubmit(async (data) => {
-    try {
-      setErrorMsg('');
-      const res = await login(data);
+    handleBlur,
+    setValues,
+    setFieldValue,
+    isValid,
+    resetForm,
+    touched,
+  } = useFormik({
+    initialValues: defaultFormValue,
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      setLoading(true);
+      const res = await login(values);
       if (res?.error) {
         setErrorMsg((res?.error as IErrorResponse)?.data?.message);
+      } else {
+        router.push(paths.dashboard.root);
       }
-    } catch (error) {
-      setErrorMsg(typeof error === 'string' ? error : error.message);
-    }
+      setLoading(false);
+    },
   });
 
-  React.useEffect(() => {
-    if (isSuccess) {
-      router.push(paths.dashboard.root);
-    }
-  }, [isSuccess]);
-
-  const renderForm = (
-    <Box gap={3} display="flex" flexDirection="column">
-      <SigninWithGoogleButton />
-      <Divider sx={{ fontSize: 10 }}>OR</Divider>
-      <Field.Text name="email_or_contact_number" label="Email" InputLabelProps={{ shrink: true }} />
-
-      <Box gap={1.5} display="flex" flexDirection="column">
-        <Link
-          component={RouterLink}
-          href="#"
-          variant="body2"
-          color="inherit"
-          sx={{ alignSelf: 'flex-end' }}
-        >
-          Forgot password?
-        </Link>
-
-        <Field.Text
-          name="password"
-          label="Password"
-          placeholder="6+ characters"
-          type={password.value ? 'text' : 'password'}
-          InputLabelProps={{ shrink: true }}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={password.onToggle} edge="end">
-                  <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
-
-      <LoadingButton
-        fullWidth
-        color="inherit"
-        size="large"
-        type="submit"
-        variant="contained"
-        loading={isSubmitting || isLoginLoading}
-        loadingIndicator="Sign in..."
-      >
-        Sign in
-      </LoadingButton>
-    </Box>
-  );
-
   return (
-    <>
-      <FormHead
-        title="Sign in to your account"
-        description={
-          <>
-            {`Don’t have an account? `}
-            <Link component={RouterLink} href={paths.auth.sign_up} variant="subtitle2">
-              Get started
-            </Link>
-          </>
-        }
-        sx={{ textAlign: { xs: 'center', md: 'left' } }}
-      />
+    <Paper elevation={3} sx={{ p: 3 }}>
+      <Stack direction={'row'} justifyContent="space-between" alignItems="center" spacing={3}>
+        <Typography variant="h5">Sign In</Typography>
+        <Stack direction={'row'}>
+          <Typography sx={{ fontSize: 14, color: 'text.secondary', mr: 1 }}>
+            Don't hanve account?
+          </Typography>
+          <Link component={RouterLink} href={paths.auth.sign_up} sx={{ fontSize: 14, mr: 1 }}>
+            Sign up
+          </Link>
+        </Stack>
+      </Stack>
+      <form onSubmit={handleSubmit}>
+        <Grid container spacing={2} py={2}>
+          <Grid item xs={12}>
+            <FormLabel>Email</FormLabel>
+            <CustomTextField
+              name="email"
+              placeholder="Email"
+              type="email"
+              onChange={handleChange}
+              error={touched.email && Boolean(errors.email)}
+              helperText={errors.email}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FormLabel>Password</FormLabel>
+            <CustomPasswordInput
+              id="password"
+              name="password"
+              value={values.password}
+              onChange={handleChange}
+              error={touched.password && Boolean(errors.password)}
+              helperText={errors.password}
+            />
+          </Grid>
+        </Grid>
 
-      {!!errorMsg && (
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {errorMsg}
-        </Alert>
-      )}
-
-      <Form methods={methods} onSubmit={onSubmit}>
-        {renderForm}
-      </Form>
-    </>
+        <LoadingButton
+          fullWidth
+          color="inherit"
+          size="large"
+          type="submit"
+          variant="contained"
+          loading={loading}
+          loadingIndicator="Submitting..."
+        >
+          Submit
+        </LoadingButton>
+      </form>
+    </Paper>
   );
-}
+};
