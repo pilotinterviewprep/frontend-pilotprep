@@ -8,9 +8,10 @@ import Link from '@mui/material/Link';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 
-import { Paper, Stack, Typography } from '@mui/material';
+import { Divider, Paper, Stack, Typography } from '@mui/material';
 import { SignUpFirstForm } from '../components/sign-up-first-form';
 import { SignupSecondForm } from '../components/sign-up-second-form';
+import { SocialLogin } from '../components/social-login';
 
 // ----------------------------------------------------------------------
 
@@ -56,6 +57,8 @@ export function SignUpView() {
       ) : (
         <SignUpFirstForm setNextStep={setStep} setErrorMsg={setErrorMsg} />
       )}
+      <Divider sx={{ color: 'text.secondary', py: 2 }}>or</Divider>
+      <SocialLogin displayErrorMsg={setErrorMsg} />
     </Paper>
   );
 }
