@@ -3,6 +3,8 @@ import { baseApi } from 'src/redux/api/base-api';
 import api_endpoint from 'src/redux/api/api-endpoints';
 
 import { setUser } from './auth-slice';
+import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/router';
 
 const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -67,6 +69,12 @@ const authApi = baseApi.injectEndpoints({
               },
             })
           );
+
+          if (window !== undefined) {
+            console.log(window, 'inside window');
+            const router = useRouter();
+            router.push('/dashboard');
+          }
         } catch (error) {
           console.log(error);
         }

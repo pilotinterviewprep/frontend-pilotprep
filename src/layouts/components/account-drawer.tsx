@@ -51,7 +51,6 @@ export function AccountDrawer({ data = [], sx, ...other }: AccountDrawerProps) {
 
   // const { user } = useMockedUser();
   const { user } = useAuthContext();
-  console.log(user, 'user.....');
 
   const [open, setOpen] = useState(false);
 

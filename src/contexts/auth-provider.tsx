@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { useAppSelector } from 'src/redux/hooks';
 import { selectCurrentUser } from 'src/redux/features/auth/auth-slice';
 
-import { AuthContext } from '../auth-context';
+import { AuthContext } from './auth-context';
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +15,6 @@ type Props = {
 
 export function AuthProvider({ children }: Props) {
   const currentUser = useAppSelector(selectCurrentUser);
-console.log(currentUser, "current user");
   const checkAuthenticated =
     currentUser?.role === 'ADMIN' ||
     currentUser?.role === 'SUPER_ADMIN' ||

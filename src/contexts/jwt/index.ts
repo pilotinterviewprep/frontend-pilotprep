@@ -4,4 +4,4 @@ export * from './action';
 
 export * from './constant';
 
-export * from './auth-provider';
+export * from '../auth-provider';

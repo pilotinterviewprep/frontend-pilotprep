@@ -19,7 +19,6 @@ export function AuthGuard({ children }: Props) {
   const router = useRouter();
 
   const pathname = usePathname();
-  console.log(pathname, 'pathname.....');
 
   const searchParams = useSearchParams();
 
@@ -61,7 +60,7 @@ export function AuthGuard({ children }: Props) {
     return <SplashScreen />;
   }
 
-  // console.log(children, 'children...');
+  console.log(children, 'children...');
 
   return <>{children}</>;
 }

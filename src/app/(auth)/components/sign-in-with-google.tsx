@@ -1,15 +1,16 @@
 import { Button } from '@mui/material';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Iconify } from 'src/components/iconify';
 import { signInWithGoogle } from 'src/firebase/firebase-auth-provider';
 import { useSocialLoginMutation } from 'src/redux/features/auth/auth-api';
 import { IErrorResponse } from 'src/redux/interfaces/common';
+import { paths } from 'src/routes/paths';
 
 export const SigninWithGoogleButton = () => {
   const [errorMsg, setErrorMsg] = React.useState('');
-  const [socialLogin, { isLoading, error, data }] = useSocialLoginMutation();
-  console.log(error, 'error');
-  console.log(errorMsg, 'errorMsg');
+  const router = useRouter();
+  const [socialLogin, { isLoading, error, data, isSuccess }] = useSocialLoginMutation();
   const handleGoogleSignIn = async () => {
     try {
       const result: any = await signInWithGoogle();
@@ -27,13 +28,17 @@ export const SigninWithGoogleButton = () => {
       if (res?.error) {
         setErrorMsg((res?.error as IErrorResponse)?.data?.message);
       }
-
-      console.log(userData, 'result from sign in with google');
     } catch (error) {
       console.error('Error during sign in with Google:', error);
       throw error;
     }
   };
+
+  React.useEffect(() => {
+    if (isSuccess) {
+      router.push(paths.dashboard.root);
+    }
+  }, [isSuccess]);
   return (
     <Button
       endIcon={<Iconify icon="logos:google-icon" />}
