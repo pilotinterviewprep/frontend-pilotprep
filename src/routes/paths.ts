@@ -26,6 +26,9 @@ export const paths = {
   // DASHBOARD
   dashboard: {
     root: ROOTS.DASHBOARD,
+
+    // account 
+    reset_password: `${ROOTS.DASHBOARD}/reset-password`,
     two: `${ROOTS.DASHBOARD}/two`,
     three: `${ROOTS.DASHBOARD}/three`,
     group: {
