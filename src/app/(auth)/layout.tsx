@@ -4,12 +4,11 @@ import 'src/global.css';
 
 import type { Viewport } from 'next';
 
-
 import { CONFIG } from 'src/config-global';
 import { primary } from 'src/theme/core/palette';
 
-
 import { PrivateLayout } from 'src/layouts/private-layout';
+import { AuthSplitLayout } from 'src/layouts/auth-split';
 
 // ----------------------------------------------------------------------
 
@@ -33,5 +32,9 @@ type Props = {
 };
 
 export default async function RootLayout({ children }: Props) {
-  return <PrivateLayout>{children}</PrivateLayout>;
+  return (
+    <PrivateLayout>
+      <AuthSplitLayout>{children}</AuthSplitLayout>
+    </PrivateLayout>
+  );
 }

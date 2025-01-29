@@ -15,7 +15,7 @@ type Props = {
 
 export function AuthProvider({ children }: Props) {
   const currentUser = useAppSelector(selectCurrentUser);
-
+console.log(currentUser, "current user");
   const checkAuthenticated =
     currentUser?.role === 'ADMIN' ||
     currentUser?.role === 'SUPER_ADMIN' ||

@@ -1,23 +1,22 @@
 'use client';
 
-import type { Theme, SxProps, Breakpoint } from '@mui/material/styles';
+import type { Breakpoint, SxProps, Theme } from '@mui/material/styles';
 
+import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import Alert from '@mui/material/Alert';
 
-import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
-
-import { CONFIG } from 'src/config-global';
+import { paths } from 'src/routes/paths';
 
 import { Logo } from 'src/components/logo';
 
-import { Section } from './section';
-import { Main, Content } from './main';
+import { Typography } from '@mui/material';
+import { SettingsButton } from '../components/settings-button';
 import { HeaderSection } from '../core/header-section';
 import { LayoutSection } from '../core/layout-section';
-import { SettingsButton } from '../components/settings-button';
+import { Content, Main } from './main';
+import { AuthFooter } from 'src/app/(auth)/components/auth-footer';
 
 // ----------------------------------------------------------------------
 
@@ -81,7 +80,7 @@ export function AuthSplitLayout({ sx, section, children, header }: AuthSplitLayo
       /** **************************************
        * Footer
        *************************************** */
-      footerSection={null}
+      footerSection={<AuthFooter />}
       /** **************************************
        * Style
        *************************************** */
@@ -89,20 +88,6 @@ export function AuthSplitLayout({ sx, section, children, header }: AuthSplitLayo
       sx={sx}
     >
       <Main layoutQuery={layoutQuery}>
-        <Section
-          title={section?.title}
-          layoutQuery={layoutQuery}
-          imgUrl={section?.imgUrl}
-          method={CONFIG.auth.method}
-          subtitle={section?.subtitle}
-          methods={[
-            {
-              label: 'Jwt',
-              path: paths.auth.sign_in,
-              icon: `${CONFIG.assetsDir}/assets/icons/platforms/ic-jwt.svg`,
-            },
-          ]}
-        />
         <Content layoutQuery={layoutQuery}>{children}</Content>
       </Main>
     </LayoutSection>

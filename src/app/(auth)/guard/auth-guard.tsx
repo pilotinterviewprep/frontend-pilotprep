@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
+import { usePathname, useRouter, useSearchParams } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
-import { useRouter, usePathname, useSearchParams } from 'src/routes/hooks';
 
 import { SplashScreen } from 'src/components/loading-screen';
 
@@ -19,6 +19,7 @@ export function AuthGuard({ children }: Props) {
   const router = useRouter();
 
   const pathname = usePathname();
+  console.log(pathname, 'pathname.....');
 
   const searchParams = useSearchParams();
 
@@ -45,13 +46,13 @@ export function AuthGuard({ children }: Props) {
       const signInPath = paths.auth.sign_in;
       const href = `${signInPath}?${createQueryString('returnTo', pathname)}`;
       router.replace(href);
-      return;
+      // return;
     }
 
     setIsChecking(false);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     checkPermissions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated, loading]);
@@ -59,6 +60,8 @@ export function AuthGuard({ children }: Props) {
   if (isChecking) {
     return <SplashScreen />;
   }
+
+  // console.log(children, 'children...');
 
   return <>{children}</>;
 }

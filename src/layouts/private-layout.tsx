@@ -12,6 +12,7 @@ import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { ProgressBar } from 'src/components/progress-bar';
 import { defaultSettings, SettingsDrawer, SettingsProvider } from 'src/components/settings';
 import { AuthProvider } from 'src/contexts/jwt';
+import { AuthGuard } from 'src/app/(auth)/guard';
 
 // import { AuthProvider } from 'src/auth/context/jwt';
 
@@ -37,7 +38,9 @@ export const PrivateLayout = ({ children }: Props) => {
                 <MotionLazy>
                   <ProgressBar />
                   <SettingsDrawer />
+                  <AuthGuard>
                   {children}
+                  </AuthGuard>
                 </MotionLazy>
               </ThemeProvider>
             </SettingsProvider>
