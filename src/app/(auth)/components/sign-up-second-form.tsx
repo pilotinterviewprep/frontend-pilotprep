@@ -29,11 +29,10 @@ export const SignUpSchema = zod.object({
 });
 
 type Props = {
-  setNextStep: React.Dispatch<React.SetStateAction<boolean>>;
-  setErrorMsg: React.Dispatch<React.SetStateAction<string>>;
+  setErrorMsg: (value: string) => void;
 };
 
-const SignUpSecondForm = ({ setNextStep, setErrorMsg }: Props) => {
+const SignUpSecondForm = ({ setErrorMsg }: Props) => {
   const [register, { isLoading: isRegistering }] = useRegisterMutation();
 
   const router = useRouter();

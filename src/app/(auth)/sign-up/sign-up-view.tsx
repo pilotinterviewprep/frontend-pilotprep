@@ -1,56 +1,61 @@
 'use client';
 
-import { useState } from 'react';
+import React from 'react';
 
-import Link from '@mui/material/Link';
 import Alert from '@mui/material/Alert';
+import Link from '@mui/material/Link';
 
-import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 
-import { FormHead } from '../components/form-head';
-import SignUpFirstForm from '../components/sign-up-first-form';
+import { Paper, Stack, Typography } from '@mui/material';
+import { SignUpFirstForm } from '../components/sign-up-first-form';
 import SignUpSecondForm from '../components/sign-up-second-form';
-import { Box, Divider } from '@mui/material';
-import { SigninWithGoogleButton } from '../components/sign-in-with-google';
 
 // ----------------------------------------------------------------------
 
 export function SignUpView() {
-  const [nextStep, setNextStep] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [step, setStep] = React.useState<number>(0);
+  const [errorMsg, setErrorMsg] = React.useState<string>('');
 
   return (
-    <Box>
-      <FormHead
-        title="Create your account"
-        description={
-          !nextStep ? (
-            <>
-              {`Already have an account? `}
-              <Link component={RouterLink} href={paths.auth.sign_in} variant="subtitle2">
-                Sign in
-              </Link>
-            </>
-          ) : (
-            <>Send OTP to your email</>
-          )
-        }
-        sx={{ textAlign: { xs: 'center', md: 'left' } }}
-      />
+    <Paper elevation={3} sx={{ p: 3 }}>
+      {step === 0 ? (
+        <Stack direction={'row'} justifyContent="space-between" alignItems="center" spacing={3}>
+          <Typography variant="h5">Sign Up</Typography>
+          <Stack direction={'row'}>
+            <Typography sx={{ fontSize: 14, color: 'text.secondary', mr: 1 }}>
+              Already have an account?
+            </Typography>
+            <Link component={RouterLink} href={paths.auth.sign_in} sx={{ fontSize: 14, mr: 1 }}>
+              Sign in
+            </Link>
+          </Stack>
+        </Stack>
+      ) : (
+        <Stack direction={'row'} justifyContent="space-between" alignItems="center" spacing={3}>
+          <Typography variant="h5">OTP</Typography>
+          <Stack direction={'row'}>
+            <Typography sx={{ fontSize: 14, color: 'text.secondary', mr: 1 }}>
+              Already have an account?
+            </Typography>
+            <Link component={RouterLink} href={paths.auth.sign_in} sx={{ fontSize: 14, mr: 1 }}>
+              Sign in
+            </Link>
+          </Stack>
+        </Stack>
+      )}
 
       {!!errorMsg && (
         <Alert severity="error" sx={{ mb: 3 }}>
           {errorMsg}
         </Alert>
       )}
-      <SigninWithGoogleButton />
-      <Divider sx={{ fontSize: 10, py: 2 }}>OR</Divider>
-      {nextStep ? (
-        <SignUpSecondForm setNextStep={setNextStep} setErrorMsg={setErrorMsg} />
+      {step ? (
+        <SignUpSecondForm setErrorMsg={setErrorMsg} />
       ) : (
-        <SignUpFirstForm setNextStep={setNextStep} setErrorMsg={setErrorMsg} />
+        <SignUpFirstForm setNextStep={setStep} setErrorMsg={setErrorMsg} />
       )}
-    </Box>
+    </Paper>
   );
 }
