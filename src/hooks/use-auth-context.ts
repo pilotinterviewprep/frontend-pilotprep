@@ -1,8 +1,8 @@
 'use client';
 
 import { useContext } from 'react';
+import { AuthContext } from 'src/contexts/auth-context';
 
-import { AuthContext } from '../context/auth-context';
 
 // ----------------------------------------------------------------------
 

@@ -8,10 +8,10 @@ import ReduxProvider from 'src/providers/redux-provider';
 import { schemeConfig } from 'src/theme/scheme-config';
 import { ThemeProvider } from 'src/theme/theme-provider';
 
-import { AuthProvider } from 'src/app/(auth)/context/jwt';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { ProgressBar } from 'src/components/progress-bar';
 import { defaultSettings, SettingsDrawer, SettingsProvider } from 'src/components/settings';
+import { AuthProvider } from 'src/contexts/jwt';
 
 // import { AuthProvider } from 'src/auth/context/jwt';
 

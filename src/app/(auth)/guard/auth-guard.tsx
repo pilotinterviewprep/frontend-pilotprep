@@ -7,7 +7,7 @@ import { useRouter, usePathname, useSearchParams } from 'src/routes/hooks';
 
 import { SplashScreen } from 'src/components/loading-screen';
 
-import { useAuthContext } from '../hooks';
+import { useAuthContext } from '../../../hooks';
 
 // ----------------------------------------------------------------------
 
