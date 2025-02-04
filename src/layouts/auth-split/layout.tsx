@@ -16,7 +16,7 @@ import { SettingsButton } from '../components/settings-button';
 import { HeaderSection } from '../core/header-section';
 import { LayoutSection } from '../core/layout-section';
 import { Content, Main } from './main';
-import { AuthFooter } from 'src/app/(private)/(auth)/components/auth-footer';
+import { AuthFooter } from 'src/app/(private)/auth/components/auth-footer';
 import { pxToRem } from 'src/theme/styles';
 
 // ----------------------------------------------------------------------
